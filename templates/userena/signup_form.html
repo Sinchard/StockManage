@@ -1,0 +1,107 @@
+{% extends 'userena/userena_base.html' %}
+
+{% block box %}
+    <div id="signup-box" class="signup-box visible widget-box no-border">
+        <div class="widget-body">
+            <div class="widget-main">
+                <h4 class="header green lighter bigger">
+                    <i class="icon-group blue"></i> 新用户注册
+                </h4>
+
+                <div class="space-6"></div>
+                <p>请输入您的信息:</p>
+
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    <fieldset>
+                        <label class="block clearfix">
+                            {% if form.email.errors %}
+                                <ul>
+                                {% for error in form.email.errors %}
+                                    <li class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <span class="block input-icon input-icon-right">
+                                {{ form.email }}
+                                <i class="icon-envelope"></i>
+                            </span>
+                        </label>
+
+                        <label class="block clearfix">
+                            {% if form.username.errors %}
+                                <ul>
+                                {% for error in form.username.errors %}
+                                    <li class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <span class="block input-icon input-icon-right">
+                                {{ form.username }}
+                                <i class="icon-user"></i>
+                            </span>
+                        </label>
+
+                        <label class="block clearfix">
+                            {% if form.password1.errors %}
+                                <ul>
+                                {% for error in form.password1.errors %}
+                                    <li class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <span class="block input-icon input-icon-right">
+                                {{ form.password1 }}
+                                <i class="icon-lock"></i>
+                            </span>
+                        </label>
+
+                        <label class="block clearfix">
+                            {% if form.password2.errors %}
+                                <ul>
+                                {% for error in form.password2.errors %}
+                                    <li class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <span class="block input-icon input-icon-right">
+                                {{ form.password2 }}
+                                <i class="icon-retweet"></i>
+                            </span>
+                        </label>
+
+                        <label class="block">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"> 我同意 <a href="#">使用协议</a></span>
+                        </label>
+
+                        <div class="space-24"></div>
+
+                        <div class="clearfix">
+                            <button type="reset" class="width-30 pull-left btn btn-sm">
+                                <i class="icon-refresh"></i> 重置
+                            </button>
+
+                            <button type="submit"
+                                class="width-65 pull-right btn btn-sm btn-success">
+                                注册 <i class="icon-arrow-right icon-on-right"></i>
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="toolbar center">
+                <a href="/accounts/signin/" class="back-to-login-link"> <i class="icon-arrow-left"></i>
+                    返回登陆页
+                </a>
+            </div>
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /signup-box -->
+{% endblock %}

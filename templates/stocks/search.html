@@ -1,0 +1,46 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="/stocks/search.html">站点信息搜索</a></li>
+{% endblock %}
+
+{% block maincontent %}
+	<form id="searchForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-md-8 ">
+                <div class="input-group col-md-offset-2">
+                    {{ form.q }}
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-sm btn-default"> 搜索 </button>
+                    </div><!-- /btn-group -->
+                </div>
+            </div>
+        </div>
+	</form>
+    <div id="data">
+        {% if q %}
+            <table id='dataTable' class='display' cellspacing='0' width='90%'>
+                <thead><th>搜索结果</th></thead>
+                {% if search_results %}
+                    {% for result in search_results %}
+                        <tr>
+                            <th><article>
+                                {% if result.url %}<a href="{{result.url}}">{% endif %}
+                                    {{result.content}}
+                                {% if result.url %}</a>{% endif %}
+                            </article></th>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><th><h1><strong>没有检索到相关信息！</strong></h1></th></tr>
+                {% endif %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/search.js"></script>
+{% endblock %}

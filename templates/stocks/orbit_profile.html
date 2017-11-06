@@ -1,0 +1,188 @@
+{% extends 'stocks/device_page.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="/stocks/orbit.html">动中通信息管理</a></li>
+    <li id="orbit">
+        {% if new %}
+            新增动中通设备
+        {% else %}
+            修改动中通设备
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+{{ super() }}
+<!-- Tab panes -->
+<div class="tab-content">
+    <form id="profileForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields() %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% if form.non_field_errors() %}
+            <ul style="list-style-type:none">
+                {% for error in form.non_field_errors() %}
+                    <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="row">
+            {% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.device.id_for_label }}" class="col-sm-4 control-label"><strong>设备：</strong></label>
+                <div class="col-sm-8">
+                    {{ form.device }}
+                </div>
+                {% if form.device.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.device.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.version.errors %}<div class="form-group col-md-6 has-warning">{% else %}{% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}{% endif %}
+                <label for="{{ form.version.id_for_label }}" class="col-sm-4 control-label">系统版本：</label>
+                <div class="col-sm-8">
+                    {{ form.version }}
+                </div>
+                {% if form.version.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.version.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.location.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.location.id_for_label }}" class="col-sm-4 control-label"><strong>安装位置：</strong></label>
+                <div class="col-sm-8">
+                    {{ form.location }}
+                </div>
+                {% if form.location.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.location.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.company.errors %}<div class="form-group col-md-6 has-warning">{% else %}{% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}{% endif %}
+                <label for="{{ form.company.id_for_label }}" class="col-sm-4 control-label">船舶所属：</label>
+                <div class="col-sm-8">
+                    {{ form.company }}
+                </div>
+                {% if form.company.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.company.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.telephone.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.telephone.id_for_label }}" class="col-sm-4 control-label">联系电话：</label>
+                <div class="col-sm-8">
+                    {{ form.telephone }}
+                </div>
+                {% if form.telephone.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.telephone.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.ip.errors %}<div class="form-group col-md-6 has-warning">{% else %}{% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}{% endif %}
+                <label for="{{ form.ip.id_for_label }}" class="col-sm-4 control-label">IP地址：</label>
+                <div class="col-sm-8">
+                    {{ form.ip }}
+                </div>
+                {% if form.ip.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.ip.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.install_date.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.install_date.id_for_label }}" class="col-sm-4 control-label">安装时间：</label>
+                <div class="col-sm-8">
+                    {{ form.install_date }}
+                </div>
+                {% if form.install_date.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.install_date.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.endstation.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.endstation.id_for_label }}" class="col-sm-4 control-label">端站ID：</label>
+                <div class="col-sm-8">
+                    {{ form.endstation }}
+                </div>
+                {% if form.endstation.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.endstation.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                <div class="col-sm-8">
+                    {{ form.description }}
+                </div>
+                {% if form.description.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.description.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">Orbit详情添加成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock maincontent%}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="/static/scripts/mainInit/orbitProfile.js"></script>
+{% endblock %}

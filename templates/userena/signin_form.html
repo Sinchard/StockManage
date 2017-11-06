@@ -1,0 +1,83 @@
+{% extends 'userena/userena_base.html' %}
+
+{% block box %}
+    <div id="login-box" class="login-box visible widget-box no-border" xmlns="http://www.w3.org/1999/html">
+        <div class="widget-body">
+            <div class="widget-main">
+                <h4 class="header blue lighter bigger">
+                    <i class="icon-coffee green"></i> 请输入用户名和密码
+                </h4>
+
+                <div class="space-6"></div>
+
+                <form id="login" method="post" action="#">
+                    {% csrf_token %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    <fieldset>
+                        {% if form.non_field_errors %}
+                            <ul style="list-style-type:none">
+                                {% for error in form.non_field_errors %}
+                                    <li align="center" class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                {{ form.identification }}
+                                <i class="icon-user"></i>
+                            </span>
+                            {% if form.identification.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.identification.errors %}
+                                    <li class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </label>
+
+                        <label class="block clearfix">
+                            <span class="block input-icon input-icon-right">
+                                {{ form.password }}
+                                <i class="icon-lock"></i>
+                            </span>
+                            {% if form.password.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.password.errors %}
+                                    <li class="has-error"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </label>
+
+                        <div class="clearfix">
+                            <p class="checkbox">
+                                <label for="id_{{ form.remember_me.name }}">{{ form.remember_me }} {{ form.remember_me.label }}</label>
+                            </p>
+
+                            <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                <i class="icon-key"></i> 登录
+                            </button>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+            <!-- /widget-main -->
+
+            <div class="toolbar clearfix">
+                <div>
+                    <a href="{% url 'userena_password_reset' %}" class="forgot-password-link"> <i class="icon-arrow-left"></i> 忘记密码？</a>
+                </div>
+
+                <div>
+                    <a href="/accounts/signup/" class="user-signup-link"> 要注册？ <i class="icon-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- /widget-body -->
+    </div>
+    <!-- /login-box -->
+{% endblock %}

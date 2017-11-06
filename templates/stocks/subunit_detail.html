@@ -1,0 +1,301 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="subunit"><a href="/stocks/subunit.html">设备组件信息</a></li>
+    <li id="detail">
+        {% if new %}
+            新增组件
+        {% else %}
+            修改组件信息
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+    <form id="subunitForm" class="form-horizontal container" method="post" action="#">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields() %}
+                    {{ hidden }}
+            {% endfor %}
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if form.non_field_errors() %}
+                        <ul style="list-style-type:none">
+                            {% for error in form.non_field_errors() %}
+                                <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <div class="row">
+                        {% if form.name.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                            <label for="{{ form.name.id_for_label }}" class="col-sm-4 control-label"><strong>设备组件：</strong></label>
+                            <div class="col-sm-8 input-group">
+                                {{ form.name }}
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-sm" type="button" data-toggle="modal" data-target="#addSubunitModel">
+                                        <span class="glyphicon glyphicon-plus"></span>新增
+                                    </button>
+                                </span>
+                            </div>
+                            {% if form.name.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.name.errors %}
+                                    <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        {% if form.sn.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                            <label for="{{ form.sn.id_for_label }}" class="col-sm-4 control-label"><strong>组件序列号：</strong></label>
+                            <div class="col-sm-8">
+                                {{ form.sn }}
+                            </div>
+                            {% if form.sn.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.sn.errors %}
+                                    <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% if form.brand.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                            <label for="{{ form.brand.id_for_label }}" class="col-sm-4 control-label">组件品牌：</label>
+                            <div class="col-sm-8 input-group">
+                                {{ form.brand }}
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-sm" type="button" data-toggle="modal" data-target="#addUnitBrandModel">
+                                        <span class="glyphicon glyphicon-plus"></span>新增
+                                    </button>
+                                </span>
+                            </div>
+                            {% if form.device.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.brand.errors %}
+                                    <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        {% if form.model.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                            <label for="{{ form.model.id_for_label }}" class="col-sm-4 control-label">组件型号：</label>
+                            <div class="col-sm-8 input-group">
+                                {{ form.model }}
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-sm" type="button" data-toggle="modal" data-target="#addUnitModelModel">
+                                        <span class="glyphicon glyphicon-plus"></span>新增
+                                    </button>
+                                </span>
+                            </div>
+                            {% if form.model.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.model.errors %}
+                                    <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                            <label for="{{ form.device.id_for_label }}" class="col-sm-4 control-label">所属设备：</label>
+                            <div class="col-sm-8">
+                                {{ form.device }}
+                            </div>
+                            {% if form.device.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.device.errors %}
+                                    <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                            <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                            <div class="col-sm-8">
+                                {{ form.description }}
+                            </div>
+                            {% if form.description.errors %}
+                                <ul style="list-style-type:none">
+                                {% for error in form.description.errors %}
+                                    <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-11">
+                    <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                    <button type="button" class="btn btn-default">取消</button>
+                </div>
+            </div>
+            {% if alert == 'T' %}
+                <div id="alert" class="alert alert-dismissable alert-success">组件信息添加成功！</div>
+            {% elif alert == 'F' %}
+                <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+            {% else %}
+                <div id="alert"></div>
+            {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+
+{% block subunit %}
+<div id="addSubunitModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增设备组件</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-12">
+                        <label for="deviceModel" class="col-sm-3 control-label">设备型号：</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="deviceModel">
+                                <option value="0"> --------- </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="unitName" class="col-sm-3 control-label">组件名称：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="unitName"
+                                   placeholder="组件名称" >
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="unitDescription" class="col-sm-3 control-label">描述：</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" cols="40" id="unitDescription"
+                                      name="description" rows="2" placeholder="组件描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="addSubunit" type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endblock %}
+
+{% block devicebrand %}
+<div id="addUnitBrandModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新建组件品牌</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-12">
+                        <label for="unitType" class="col-sm-3 control-label">组件类型：</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="unitType">
+                                <option value="0"> --------- </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="brandName" class="col-sm-3 control-label">组件品牌：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="brandName"
+                                   placeholder="类型名称" >
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="brandDescription" class="col-sm-3 control-label">描述：</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" cols="40" id="brandDescription"
+                                      name="description" rows="2" placeholder="品牌描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="addDeviceBrand" type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endblock %}
+
+{% block devicemodel %}
+<div id="addUnitModelModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增组件型号</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-12">
+                        <label for="unitName" class="col-sm-3 control-label">组件名称：</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="unitName">
+                                <option value="0"> --------- </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="modelName" class="col-sm-3 control-label">组件型号：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="modelName"
+                                   placeholder="类型名称" >
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="modelDescription" class="col-sm-3 control-label">描述：</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" cols="40" id="modelDescription"
+                                      name="description" rows="2" placeholder="型号描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="addDeviceModel" type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/dictionary.js"></script>
+    <script type="text/javascript" src="/static/scripts/mainInit/subunit_detail.js"></script>
+    {{ form.media }}
+{% endblock %}

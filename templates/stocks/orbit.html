@@ -1,0 +1,43 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="#">动中通</a></li>
+{% endblock %}
+
+{% block maincontent %}
+    <div id="data">
+        <table id='dataTable' class='display' cellspacing='0' width='100%'>
+            <thead>
+				<tr>
+                    <th>Profile ID</th>
+					<th>设备ID</th>
+					<th>设备信息</th>
+                    <th>版本信息</th>
+                    <th>安装位置</th>
+                    <th>安装时间</th>
+                    <th>端站ID</th>
+                    <th>备注</th>
+                    <th>操作</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+                    <th>Profile ID</th>
+					<th>设备ID</th>
+					<th>设备信息</th>
+                    <th>版本信息</th>
+                    <th>安装位置</th>
+                    <th>安装时间</th>
+                    <th>端站ID</th>
+                    <th>备注</th>
+                    <th>操作</th>
+				</tr>
+			</tfoot>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/orbit.js"></script>
+{% endblock %}

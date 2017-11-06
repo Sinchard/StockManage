@@ -1,0 +1,112 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="application"><a href="/stocks/application.html">设备申请</a></li>
+    <li>设备申请审批</li>
+{% endblock %}
+
+{% block maincontent %}
+    <form id="applicationForm" class="form-horizontal container" method="post" action="#">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields() %}
+                {{ hidden }}
+            {% endfor %}
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.employee.id_for_label }}" class="col-sm-4 control-label">申请人：</label>
+                            <div class="col-sm-8">
+                                {{ form.employee }}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ form.create_date.id_for_label }}" class="col-sm-4 control-label">申请时间：</label>
+                            <div class="col-sm-8">
+                                {{ form.create_date }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">设备申请</h3>
+                </div>
+                <table class="table" align="center">
+                    <tr><th><h5>设备描述</h5></th><th><h5>设备数量</h5></th><th><h5>安装位置</h5></th></tr>
+                    {% for df in device_forms %}
+                        {% if df.device %}
+                            {% for hidden in df.hidden_fields() %}
+                                {{ hidden }}
+                            {% endfor %}
+                            <tr><th>{{ df.device }}</th><th>{{ df.number }}</th><th>{{ df.location }}</th></tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">散料申请</h3>
+                </div>
+                <table class="table" align="center">
+                    <tr><th><h5>散料描述</h5></th><th><h5>申请数量</h5></th><th><h5>使用位置</h5></th></tr>
+                    {% for df in material_forms %}
+                        {% if df.device %}
+                            {% for hidden in df.hidden_fields() %}
+                                {{ hidden }}
+                            {% endfor %}
+                            <tr><th>{{ df.device }}</th><th>{{ df.number }}</th><th>{{ df.location }}</th></tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="{{ form.approve_content.id_for_label }}" class="col-sm-4 control-label">审批意见：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            {{ form.approve_content }}
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><strong>常用意见</strong><span class="caret"></span></button>
+                                <ul id="advice" class="dropdown-menu dropdown-menu-right">
+                                    <li><a class="advice">同意</a></li>
+                                    <li><a class="advice">不同意，描述不清楚</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="{{ form.approve_date.id_for_label }}" class="col-sm-4 control-label">审批时间：</label>
+                    <div class="col-sm-8">
+                        {{ form.approve_date }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-11">
+                    <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                    <button type="button" class="btn btn-default">取消</button>
+                </div>
+            </div>
+            {% if alert == 'T' %}
+                <div id="alert" class="alert alert-dismissable alert-success">设备申请信息添加成功！</div>
+            {% elif alert == 'F' %}
+                <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+            {% else %}
+                <div id="alert"></div>
+            {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/approve_detail.js"></script>
+{% endblock %}

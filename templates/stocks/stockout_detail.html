@@ -1,0 +1,142 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="stockin"><a href="/stocks/stockin.html">设备出库信息</a></li>
+    <li>
+        {% if new %}
+            新建设备出库
+        {% else %}
+            修改出库信息
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+    <form id="stockoutForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields() %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% if form.non_field_errors() %}
+                    <ul style="list-style-type:none">
+                        {% for error in form.non_field_errors() %}
+                            <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            
+                <div class="row">
+                    {% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.device.id_for_label }}" class="col-sm-4 control-label"><strong>搜索：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.device }}
+                        </div>
+                        {% if form.device.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.device.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    {% if form.application.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.application.id_for_label }}" class="col-sm-4 control-label"><strong>申请名称：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.application }}
+                        </div>
+                        {% if form.application.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.application.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% if form.applicationdetail.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.applicationdetail.id_for_label }}" class="col-sm-4 control-label"><strong>申请详情：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.applicationdetail }}
+                        </div>
+                        {% if form.applicationdetail.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.applicationdetail.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.operator.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.operator.id_for_label }}" class="col-sm-4 control-label"><strong>出库人：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.operator }}
+                        </div>
+                        {% if form.operator.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.operator.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% if form.operate_date.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.operate_date.id_for_label }}" class="col-sm-4 control-label"><strong>出库时间：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.operate_date }}
+                        </div>
+                        {% if form.operate_date.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.operate_date.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.description.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">设备出库信息添加成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/stockout_detail.js"></script>
+    {{ form.media }}
+{% endblock %}

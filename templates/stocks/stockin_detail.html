@@ -1,0 +1,129 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="stockin"><a href="/stocks/stockin.html">设备入库信息</a></li>
+    <li>
+        {% if new %}
+            新建设备入库
+        {% else %}
+            修改入库信息
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+    <form id="stockinForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields() %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% if form.non_field_errors() %}
+                    <ul style="list-style-type:none">
+                        {% for error in form.non_field_errors() %}
+                            <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            
+                <div class="row">
+                    {% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.device.id_for_label }}" class="col-sm-4 control-label"><strong>搜索：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.device }}
+                        </div>
+                        {% if form.device.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.device.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    {% if form.warehouse.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.warehouse.id_for_label }}" class="col-sm-4 control-label"><strong>库房名称：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.warehouse }}
+                        </div>
+                        {% if form.warehouse.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.warehouse.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% if form.employee.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.employee.id_for_label }}" class="col-sm-4 control-label"><strong>员工：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.employee }}
+                        </div>
+                        {% if form.employee.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.employee.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.create_date.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.create_date.id_for_label }}" class="col-sm-4 control-label">入库时间：</label>
+                        <div class="col-sm-8">
+                            {{ form.create_date }}
+                        </div>
+                        {% if form.create_date.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.create_date.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.description.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">设备入库信息添加成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/stockin_detail.js"></script>
+    {{ form.media }}
+{% endblock %}

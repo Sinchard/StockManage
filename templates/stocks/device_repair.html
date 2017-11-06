@@ -1,0 +1,42 @@
+{% extends 'stocks/device_page.html' %}
+
+{% block maincontent %}
+{{ super() }}
+<!-- Tab panes -->
+<div class="tab-content">
+    <input id="id" type="hidden" value="{{ deviceId }}"/>
+    <table id="deviceRepairTable" class="display" cellspacing="0" width="90%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>设备</th>
+                <th>人员</th>
+                <th>故障类型</th>
+                <th>故障现象</th>
+                <th>故障处理</th>
+                <th>处理时间</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>设备</th>
+                <th>人员</th>
+                <th>故障类型</th>
+                <th>故障现象</th>
+                <th>故障处理</th>
+                <th>处理时间</th>
+                <th>备注</th>
+                <th>操作</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="/static/scripts/mainInit/device_repair.js"></script>
+{% endblock %}
