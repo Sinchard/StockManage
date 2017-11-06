@@ -3,7 +3,6 @@
 import datetime
 
 from django.http import HttpResponse
-from django_jinja.backend import Jinja2
 
 def time2str(d):
     if d:
@@ -20,8 +19,9 @@ def str2time(s):
     finally:
         return d
 
-
+'''
 def render_to_response(filename, context={}):
     template = Jinja2({}).get_template(filename)
     rendered = template.render(**context)
     return HttpResponse(rendered)
+'''

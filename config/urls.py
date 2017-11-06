@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # userena
     url(r'^accounts/', include('userena.urls')),
+    # stock
+    url(r'^stock/', include('stock.urls')),
 ]
