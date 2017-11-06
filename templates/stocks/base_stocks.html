@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <li class="dropdown">
+        <a href="#" id="lifecycle" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">
+            <i class="icon-hospital"></i><span class="menu-text"> 全生命周期管理 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li id="mssPage">
+                <a href="/stocks/orbit.html"><i class="icon-double-angle-right"></i> 动中通卫星通讯 </a>
+            </li>
+            <li id="macrowavePage">
+                <a href="/stocks/macrowave.html"><i class="icon-double-angle-right"></i> 微波通讯系统 </a>
+            </li>
+            <li id="instrumentPage">
+                <a href="/stocks/device.html?typeId=21"><i class="icon-double-angle-right"></i> 仪器仪表 </a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li id="statisticsPage">
+                <a href="/stocks/statistic.html"><i class="icon-double-angle-right"></i> 数据统计 </a>
+            </li>
+            <li id="subunitPage">
+                <a href="/stocks/subunit.html"><i class="icon-double-angle-right"></i> 设备组件 </a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" id="basicInfo" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">
+            <i class="icon-bullhorn"></i> <span class="menu-text"> 基本信息 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li id="warehousesInfo">
+                <a href="/stocks/warehouse.html"> <i class="icon-double-angle-right"></i> 库房信息 </a>
+            </li>
+            <li id="employeesInfo">
+                <a href="/stocks/employee.html"> <i class="icon-double-angle-right"></i> 员工信息 </a>
+            </li>
+            <li id="devicesInfo">
+                <a href="/stocks/device.html"> <i class="icon-double-angle-right"></i> 设备信息 </a>
+            </li>
+            <li id="meterialsInfo">
+                <a href="/meterial/meterial.html"> <i class="icon-double-angle-right"></i> 材料信息 </a>
+            </li>
+        </ul>
+    </li>
+    <li id="stockInsInfo">
+        <a href="#" id="basicInfo" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false">
+            <i class="icon-bullhorn"></i> <span class="menu-text"> 入库信息 </span>
+            <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li id="dstockinInfo">
+                <a href="/stocks/stockin.html"> <i class="icon-double-angle-right"></i> 设备入库 </a>
+            </li>
+            <li id="mstockinInfo">
+                <a href="/meterial/stockin.html"> <i class="icon-double-angle-right"></i> 材料入库 </a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle"  data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false"><i class="icon-list-alt"></i> <span class="menu-text">
+                设备出库 </span> <b class="arrow icon-angle-down"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li id="deviceApplicationsInfo"><a href="/stocks/application.html"> <i
+                    class="icon-double-angle-right"></i> 设备申请单
+            </a></li>
+            {% if leader %}
+            <li id="deviceApprovesInfo" role="2"><a href="/stocks/approve.html"> <i
+                    class="icon-double-angle-right"></i> 申请单审批
+            </a></li>
+            {% endif %}
+            {% if manager %}
+            <li id="stockOutInfo" role="4"><a href="/stocks/stockout.html"> <i
+                    class="icon-double-angle-right"></i> 设备出库
+            </a></li>
+            <li id="stockOutInfo" role="4"><a href="/meterial/stockout.html"> <i
+                    class="icon-double-angle-right"></i> 材料出库
+            </a></li>
+            {% endif %}
+            <!--
+            <li id="applicantConfirm"><a href="/stocks/confirm.html"> <i
+                    class="icon-double-angle-right"></i> 申请人确认
+            </a></li> -->
+        </ul>
+    </li>
+    <li id="search">
+        <a href="/stocks/search.html"><i class="icon-search"></i><span class="menu-text"> 搜索 </span></a>
+    </li>
+{% endblock %}

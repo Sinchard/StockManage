@@ -1,0 +1,97 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="warehouse"><a href="/stocks/warehouse.html">库房信息</a></li>
+    <li id="detail">
+        {% if new %}
+            新增库房
+        {% else %}
+            修改库房信息
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+    <form id="warehouseForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields() %}
+                {{ hidden }}
+        {% endfor %}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% if form.non_field_errors() %}
+                    <ul style="list-style-type:none">
+                        {% for error in form.non_field_errors() %}
+                            <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            
+                <div class="row">
+                    {% if form.name.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.name.id_for_label }}" class="col-sm-4 control-label"><strong>库房名称：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.name }}
+                        </div>
+                        {% if form.name.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.name.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% if form.location.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.location.id_for_label }}" class="col-sm-4 control-label"><strong>库房位置：</strong></label>
+                        <div class="col-sm-8">
+                            {{ form.location }}
+                        </div>
+                        {% if form.location.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.location.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.description.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">库房信息添加成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/warehouse.js"></script>
+{% endblock %}

@@ -1,0 +1,207 @@
+{% extends 'stocks/device_page.html' %}
+
+{% block maincontent %}
+    <form id="repairForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields() %}
+            {{ hidden }}
+        {% endfor %}
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% if form.non_field_errors() %}
+                    <ul style="list-style-type:none">
+                        {% for error in form.non_field_errors() %}
+                            <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            
+                <div class="row">
+                    {% if form.device.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.device.id_for_label }}" class="col-sm-4 control-label">设备：</label>
+                        <div class="col-sm-8">
+                            {{ form.device }}
+                        </div>
+                        {% if form.device.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.device.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% if form.employee.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.employee.id_for_label }}" class="col-sm-4 control-label">员工：</label>
+                        <div class="col-sm-8">
+                            {{ form.employee }}
+                        </div>
+                        {% if form.employee.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.employee.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.brokentype.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.brokentype.id_for_label }}" class="col-sm-4 control-label">故障类型：</label>
+                        <div class="col-sm-8 input-group">
+                            {{ form.brokentype }}
+                            <span class="input-group-btn">
+                            <button class="btn btn-info btn-sm" type="button" data-toggle="modal" data-target="#addBrokenTypeModel">
+                                <span class="glyphicon glyphicon-plus"></span>新增
+                            </button>
+                            </span>
+                        </div>
+                        {% if form.brokentype.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.brokentype.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.appearance.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.appearance.id_for_label }}" class="col-sm-4 control-label">故障表现：</label>
+                        <div class="col-sm-8">
+                            {{ form.appearance }}
+                        </div>
+                        {% if form.appearance.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.appearance.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {% if form.debug.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.debug.id_for_label }}" class="col-sm-4 control-label">故障处理：</label>
+                        <div class="col-sm-8">
+                            {{ form.debug }}
+                        </div>
+                        {% if form.debug.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.debug.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.repair_date.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.repair_date.id_for_label }}" class="col-sm-4 control-label">维修时间：</label>
+                        <div class="col-sm-8">
+                            {{ form.repair_date }}
+                        </div>
+                        {% if form.repair_date.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.repair_date.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                        <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <ul style="list-style-type:none">
+                            {% for error in form.description.errors %}
+                                <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">设备维修记录修改成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block brokentype %}
+<div id="addBrokenTypeModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增设备故障类型</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group col-md-12">
+                        <label for="deviceModel" class="col-sm-3 control-label">设备型号：</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="deviceModel">
+                                <option value="0"> --------- </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="unitName" class="col-sm-3 control-label">设备组件：</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="deviceModel">
+                                <option value="0"> --------- </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="brokenName" class="col-sm-3 control-label">故障名称：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="brokenName"
+                                   placeholder="故障名称" >
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="modelDescription" class="col-sm-3 control-label">描述：</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" cols="40" id="modelDescription"
+                                      name="description" rows="2" placeholder="故障描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="addBrokenType" type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/dictionary.js"></script>
+    <script type="text/javascript" src="/static/scripts/mainInit/repair_detail.js"></script>
+{% endblock %}

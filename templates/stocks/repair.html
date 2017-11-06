@@ -1,0 +1,45 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="#">设备维修信息</a></li>
+{% endblock %}
+
+{% block maincontent %}
+    <div id="data">
+        <table id="deviceRepairTable" class="display" cellspacing="0" width="90%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>设备ID</th>
+                <th>设备</th>
+                <th>人员ID</th>
+                <th>人员</th>
+                <th>故障现象</th>
+                <th>故障判断</th>
+                <th>故障处理</th>
+                <th>时间</th>
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>设备ID</th>
+                <th>设备</th>
+                <th>人员ID</th>
+                <th>人员</th>
+                <th>故障现象</th>
+                <th>故障判断</th>
+                <th>故障处理</th>
+                <th>时间</th>
+                <th>备注</th>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/repair.js"></script>
+{% endblock %}

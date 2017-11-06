@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'auditlog',
+    'django_jinja',
     'stock',
 )
 
@@ -73,11 +74,11 @@ TEMPLATES = [
     },
     {
         'NAME':'jinja2',
-        'BACKEND': "django_jinja.backend.Jinja2",
-        "APP_DIRS": True,
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'APP_DIRS': True,
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        "OPTIONS": {
-            "match_extension": ".html",
+        'OPTIONS': {
+            'match_extension': '.html',
         }
     }
 ]

@@ -1,0 +1,13 @@
+{% extends 'stocks/device_stock.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="/stocks/orbit.html">动中通信息管理</a></li>
+    <li id="orbit">
+        {% if new %}
+            新增动中通设备
+        {% else %}
+            修改动中通设备
+        {% endif %}
+    </li>
+{% endblock %}

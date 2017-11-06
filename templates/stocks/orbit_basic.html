@@ -1,0 +1,173 @@
+{% extends 'stocks/orbit_detail.html' %}
+
+{% block maincontent %}
+{{ super() }}
+<!-- Tab panes -->
+<div class="tab-content">
+    <form id="deviceForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields() %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% if form.non_field_errors() %}
+            <ul style="list-style-type:none">
+                {% for error in form.non_field_errors() %}
+                    <li align="center" class="text-warning"><h2>{{ error }}</h2></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="row">
+            {% if form.type.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.type.id_for_label }}" class="col-sm-4 control-label">类型：</label>
+                <div class="col-sm-8">
+                    {{ form.type }}
+                </div>
+                {% if form.type.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.type.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.name.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.name.id_for_label }}" class="col-sm-4 control-label">品牌：</label>
+                <div class="col-sm-8">
+                    {{ form.name }}
+                </div>
+                {% if form.name.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.name.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.model.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.model.id_for_label }}" class="col-sm-4 control-label">型号：</label>
+                <div class="col-sm-8">
+                    {{ form.model }}
+                </div>
+                {% if form.model.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.model.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.sn.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.sn.id_for_label }}" class="col-sm-4 control-label">序列号：</label>
+                <div class="col-sm-8">
+                    {{ form.sn }}
+                </div>
+                {% if form.sn.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.sn.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.good.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.good.id_for_label }}" class="col-sm-4 control-label">设备状态：</label>
+                <div class="col-sm-8">
+                    {{ form.good }}
+                </div>
+                {% if form.good.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.good.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.value.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.value.id_for_label }}" class="col-sm-4 control-label">价格：</label>
+                <div class="col-sm-8">
+                    {{ form.value }}
+                </div>
+                {% if form.value.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.value.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.asset.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.asset.id_for_label }}" class="col-sm-4 control-label">资产编码：</label>
+                <div class="col-sm-8">
+                    {{ form.asset }}
+                </div>
+                {% if form.asset.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.asset.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if form.sap.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.sap.id_for_label }}" class="col-sm-4 control-label">SAP号码：</label>
+                <div class="col-sm-8">
+                    {{ form.sap }}
+                </div>
+                {% if form.sap.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.sap.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% if form.description.errors %}<div class="form-group col-md-6 has-warning">{% else %}<div class="form-group col-md-6">{% endif %}
+                <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                <div class="col-sm-8">
+                    {{ form.description }}
+                </div>
+                {% if form.description.errors %}
+                    <ul style="list-style-type:none">
+                    {% for error in form.description.errors %}
+                        <li align="center" class="text-warning"><strong>{{ error }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">设备添加成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">添加失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock maincontent%}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="/static/scripts/mainInit/orbitBasic.js"></script>
+{% endblock %}

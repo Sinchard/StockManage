@@ -1,0 +1,35 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="/stocks/warehouse.html">库房信息</a></li>
+{% endblock %}
+
+{% block maincontent %}
+    <div id="data">
+        <table id='dataTable' class='display' cellspacing='0' width='100%'>
+            <thead>
+				<tr>
+					<th>ID</th>
+					<th>仓库名称</th>
+					<th>位置</th>
+					<th>备注</th>
+                    <th>操作</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>ID</th>
+					<th>仓库名称</th>
+					<th>位置</th>
+					<th>备注</th>
+                    <th>操作</th>
+				</tr>
+			</tfoot>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/warehouse.js"></script>
+{% endblock %}

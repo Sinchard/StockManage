@@ -1,0 +1,69 @@
+{% extends 'stocks/device_page.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    <li id="orbit"><a href="/stocks/orbit.html">动中通信息管理</a></li>
+    <li id="orbit">
+        {% if new %}
+            新增动中通设备
+        {% else %}
+            修改动中通设备
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+{{ super() }}
+<!-- Tab panes -->
+<div class="tab-content">
+    <form id="subunitForm" class="form-horizontal container" method="post" action="#">
+        {% csrf_token %}
+
+        {% for k,form in units.items() %}
+        <div class="panel panel-default">
+            <!--<div class="panel-heading">
+                <h3 class="panel-title">{{ k }}</h3>
+            </div>-->
+            <div class="panel-body">
+                {% for hidden in form.hidden_fields() %}
+                    {{ hidden }}
+                {% endfor %}
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="{{ form.units.id_for_label }}" class="col-sm-4 control-label">组件：</label>
+                        <div class="col-sm-8">
+                            {{ form.units }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="{{ form.description.id_for_label }}" class="col-sm-4 control-label">备注：</label>
+                        <div class="col-sm-8">
+                            {{ form.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-11">
+                <button id="oper" type="submit" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+        {% if alert == 'T' %}
+            <div id="alert" class="alert alert-dismissable alert-success">Orbit组件修改成功！</div>
+        {% elif alert == 'F' %}
+            <div id="alert" class="alert alert-dismissable alert-warning">修改失败，稍后请重试</div>
+        {% else %}
+            <div id="alert"></div>
+        {% endif %}
+    </form>
+</div>
+{% endblock maincontent%}
+
+{% block script %}
+    {{ super() }}
+    <script type="text/javascript" src="/static/scripts/mainInit/orbitSubunit.js"></script>
+{% endblock %}

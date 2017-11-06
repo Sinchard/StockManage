@@ -1,0 +1,36 @@
+{% extends 'stocks/base_stocks.html' %}
+
+{% block breadcrumb %}
+    <li id="home"><a href="/stocks/main.html">主页</a></li>
+    {% if typeId %}
+        <li id="device"><a href="/stocks/device.html?typeId={{ typeId }}">{{ typeName }}</a></li>
+    {% else %}
+        <li id="device"><a href="/stocks/device.html">设备信息</a></li>
+    {% endif %}
+    <li id="orbit">
+        {% if new %}
+            新增设备
+        {% else %}
+            修改设备
+        {% endif %}
+    </li>
+{% endblock %}
+
+{% block maincontent %}
+<!-- Nav tabs -->
+<ul id="pagelist" class="nav nav-tabs" role="tablist">
+<li role="presentation"><a id="basicPage" href="#" aria-controls="deviceDetail" role="tab" data-toggle="tab">设备详情页</a></li>
+<li role="presentation"><a id="stockPage" href="#" aria-controls="deviceHistory" role="tab" data-toggle="tab">出入库历史</a></li>
+<li role="presentation"><a id="repairPage" href="#" aria-controls="deviceRepair" role="tab" data-toggle="tab">维修记录</a></li>
+{% if profile %}
+    <li role="presentation"><a id="profilePage" href="#" aria-controls="deviceProfile" role="tab" data-toggle="tab">专有信息</a></li>
+{% endif %}
+{% if subunit %}
+    <li role="presentation"><a id="thesubunitPage" href="#" aria-controls="deviceSubunit" role="tab" data-toggle="tab">配件信息</a></li>
+{% endif %}
+</ul>
+{% endblock maincontent %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/scripts/mainInit/device_page.js"></script>
+{% endblock %}
