@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for config project.
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stock',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,8 +56,9 @@ ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
+        'NAME':'django',
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +69,15 @@ TEMPLATES = [
             ],
         },
     },
+    {
+        'NAME':'jinja2',
+        'BACKEND': "django_jinja.backend.Jinja2",
+        "APP_DIRS": True,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        "OPTIONS": {
+            "match_extension": ".html",
+        }
+    }
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
@@ -87,7 +99,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -100,3 +112,85 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
+)
+
+# Logger Setting
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(levelname)s]- %(message)s'
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'default': {
+            'level':'INFO',
+            'class': 'logging.FileHandler',#'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join('logs/','all.log'), #或者直接写路径：'c:\logs\all.log',
+            #'maxBytes': 1024*1024*10, # 5 MB
+            #'backupCount': 10,
+            'formatter':'standard',
+        },
+        'console':{
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        'request_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join('logs/','script.log'),
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'scprits_handler': {
+            'level':'INFO',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join('logs/','script.log'),
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default','console'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'my':{
+            'handlers': ['default','console'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        'scripts': { # 脚本专用日志
+            'handlers': ['scprits_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+    }
+}
+
+# Settings used by Userena
+ANONYMOUS_USER_ID = -1
+AUTH_PROFILE_MODULE = 'accounts.MyProfile'
+USERENA_SIGNIN_REDIRECT_URL = '/stocks/main.html'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
