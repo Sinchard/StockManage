@@ -15,10 +15,16 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from stock.views import warehouse
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # userena
     url(r'^accounts/', include('userena.urls')),
-    # stock
-    url(r'^stock/', include('stock.urls')),
+
+    # Warehouse
+    url(r'^warehouse.html$', warehouse.ShowWarehouse, name='ShowWarehouse'),
+    #url(r'^warehouselist$', warehouse.WarehouseList.as_view(), name='WarehouseList'),
+    url(r'^warehouse/(?P<id>[\w\-]+)/detail.html$', warehouse.SaveWarehouse, name='SaveWarehouse'),
+    url(r'^warehouse/(?P<id>[\w\-]+)/delete.html$', warehouse.DeleteWarehouse, name='DeleteWarehouse'),
 ]
