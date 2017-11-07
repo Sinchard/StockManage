@@ -4,3 +4,4 @@ from common import *
 from device import *
 from employee import *
 from warehouse import *
+from record import *

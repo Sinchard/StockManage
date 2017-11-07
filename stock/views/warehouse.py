@@ -14,12 +14,12 @@ from stock.forms import WarehouseForm
 
 
 def ShowWarehouse(request):
-    if request.user.is_active:
+    #if request.user.is_active:
         updateUserInfo(request.user.id)
         dict = copy.copy(appInfo)
-        return render_to_response('stocks/warehouse.html', dict, using='jinja2')
-    else:
-        return HttpResponseRedirect('login.html')
+        return render_to_response('stock/warehouse.html', dict, using='jinja2')
+    #else:
+        #return HttpResponseRedirect('login.html')
 
 
 @permission_required('stocks.change_warehouse')
@@ -59,7 +59,7 @@ def SaveWarehouse(request, id):
     updateUserInfo(request.user.id)
     dict = copy.copy(appInfo)
     dict.update({'form': form, 'alert': alert, 'new':new})
-    return render(request, 'stocks/warehouse_detail.html', dict, using='jinja2')
+    return render(request, 'stock/warehouse_detail.html', dict, using='jinja2')
 
 
 @permission_required('stocks.delete_warehouse')

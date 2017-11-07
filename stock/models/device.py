@@ -5,6 +5,9 @@ from auditlog.registry import auditlog
 
 from common import CommonInfo
 from warehouse import Warehouse
+from employee import Employee
+from stock.utils import *
+
 
 class DeviceType(CommonInfo):
     name = models.CharField(max_length=30, unique=True, verbose_name=u"名称", db_index=True)
@@ -42,8 +45,8 @@ class DeviceBrand(CommonInfo):
     def dict(self):
         d = {'id': self.id,
              'name': self.name,
-             'parentId':self.parent.id,
-             'parent':self.parent.name}
+             'parentId': self.parent.id,
+             'parent': self.parent.name}
         d.update(super(DeviceBrand, self).dict())
         return d
 
@@ -68,8 +71,8 @@ class DeviceModel(CommonInfo):
     def dict(self):
         d = {'id': self.id,
              'name': self.name,
-             'parentId':self.parent.id,
-             'parent':self.parent.name}
+             'parentId': self.parent.id,
+             'parent': self.parent.name}
         d.update(super(DeviceModel, self).dict())
         return d
 
@@ -86,13 +89,13 @@ class DeviceSubUnit(CommonInfo):
     parent = models.ForeignKey(DeviceModel, null=True, verbose_name=u"设备型号")
 
     def __unicode__(self):
-        return self.parent.name + '/' +self.name
+        return self.parent.name + '/' + self.name
 
     def dict(self):
         d = {'id': self.id,
              'name': self.name,
-             'parentId':self.parent.id,
-             'parent':self.parent.name}
+             'parentId': self.parent.id,
+             'parent': self.parent.name}
         d.update(super(DeviceModel, self).dict())
         return d
 
@@ -106,34 +109,34 @@ auditlog.register(DeviceSubUnit)
 
 class Device(CommonInfo):
     status_choice = (
-        (1,u'在库中'),
-        (2,u'已出库且可控'),
-        (3,u'已出库不可控'),
-        (4,u'未知'),
-        (5,u'已划拨'),
+        (1, u'在库中'),
+        (2, u'已出库且可控'),
+        (3, u'已出库不可控'),
+        (4, u'未知'),
+        (5, u'已划拨'),
     )
     good_choice = (
-        (1,u'故障'),
-        (5,u'良好'),
+        (1, u'故障'),
+        (5, u'良好'),
     )
     name = models.ForeignKey(DeviceBrand, null=True, verbose_name=u"名称")
     model = models.ForeignKey(DeviceModel, null=True, verbose_name=u"型号")
     sn = models.CharField(max_length=100, verbose_name=u"设备编码", db_index=True)
     type = models.ForeignKey(DeviceType, null=True, verbose_name=u"类型")
-    #subunit = models.BooleanField(default=False, verbose_name=u"是否为配件")
+    # subunit = models.BooleanField(default=False, verbose_name=u"是否为配件")
     good = models.IntegerField(default=5, choices=good_choice, verbose_name=u"设备状态")
     value = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name=u"价格")
     asset = models.CharField(max_length=100, blank=True, null=True, verbose_name=u"资产编码")
     sap = models.CharField(max_length=100, blank=True, null=True, verbose_name=u"SAP")
-    status = models.IntegerField(default=4,choices=status_choice, verbose_name=u"状态")
+    status = models.IntegerField(default=4, choices=status_choice, verbose_name=u"状态")
     warehouse = models.ForeignKey(Warehouse, blank=True, null=True, verbose_name=u"所在库房")
     location = models.CharField(max_length=50, blank=True, null=True, verbose_name=u"位置")
 
     def __unicode__(self):
-        return self.name.name + '/' + self.model.name + '/' + self.sn #+ ' ' + self.type.name
+        return self.name.name + '/' + self.model.name + '/' + self.sn  # + ' ' + self.type.name
 
     def get_device_display(self):
-        return u'{0}/{1}/{2}'.format(self.name.name,self.model.name,self.sn)
+        return u'{0}/{1}/{2}'.format(self.name.name, self.model.name, self.sn)
 
     def get_type_display(self):
         if self.type:
@@ -142,11 +145,11 @@ class Device(CommonInfo):
             return ""
 
     def autocomplateFormate(self):
-        return {'label': self.name.name + '/' + self.model.name + '/' + self.sn, 'value':self.id}
+        return {'label': self.name.name + '/' + self.model.name + '/' + self.sn, 'value': self.id}
 
     def dict(self):
         if self.warehouse == None:
-            self.warehouse = Warehouse(id=0,name='')
+            self.warehouse = Warehouse(id=0, name='')
 
         d = {'id': self.id,
              'sn': self.sn,
@@ -242,7 +245,8 @@ class OrbitProfile(CommonInfo):
 
     def dict(self):
         d = {'id': self.id,
-             'deviceId': self.device.id, 'device': self.device.name.name + ',' + self.device.model.name + ',' + self.device.sn,
+             'deviceId': self.device.id,
+             'device': self.device.name.name + ',' + self.device.model.name + ',' + self.device.sn,
              'location': self.location, 'install_date': self.install_date,
              'endstation': self.endstation}
         return d
@@ -253,3 +257,80 @@ class OrbitProfile(CommonInfo):
 
 
 auditlog.register(OrbitProfile)
+
+
+class BrokenType(CommonInfo):
+    devicemodel = models.ForeignKey(DeviceModel)
+    unit = models.ForeignKey(DeviceSubUnit, null=True)
+    name = models.CharField(max_length=100, db_index=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def dict(self):
+        d = {'id': self.id,
+             'modelId': self.devicemodel.id, 'modelName': self.devicemodel.name,
+             'name': self.name}
+        return d
+
+    class Meta:
+        verbose_name = u'故障类型表'
+        verbose_name_plural = u'故障类型表'
+
+
+auditlog.register(BrokenType)
+
+
+class DeviceRepair(CommonInfo):
+    device = models.ForeignKey(Device)
+    employee = models.ForeignKey(Employee)
+    brokentype = models.ForeignKey(BrokenType)
+    appearance = models.CharField(max_length=100, verbose_name=u"故障现象")
+    judgment = models.CharField(max_length=100, verbose_name=u"故障判断")
+    debug = models.CharField(max_length=100, verbose_name=u"故障处理", db_index=True)
+    repair_date = models.DateTimeField(null=True, verbose_name=u"修理时间")
+
+    def __unicode__(self):
+        return self.appearance + self.debug
+
+    def dict(self):
+        d = {'id': self.id,
+             'deviceId': self.device.id,
+             'device': self.device.name.name + ',' + self.device.model.name + ',' + self.device.sn,
+             'employeeId': self.employee.id, 'employee': self.employee.name,
+             'brokentype': self.get_brokentype_display(),
+             'appearance': self.appearance,
+             'judgment': self.judgment,
+             'debug': self.debug,
+             'repair_date': time2str(self.repair_date)}
+        d.update(super(DeviceRepair, self).dict())
+        return d
+
+    def get_device_display(self):
+        if self.device:
+            return self.device.get_device_display()
+        else:
+            return ''
+
+    def get_employee_display(self):
+        if self.device:
+            return self.employee.name
+        else:
+            return ''
+
+    def get_brokentype_display(self):
+        if self.brokentype:
+            return self.brokentype.name
+        else:
+            return ''
+
+    def get_repair_date_display(self):
+        return time2str(self.repair_date)
+
+    class Meta:
+        verbose_name = u'故障处理表'
+        verbose_name_plural = u'故障处理表'
+        ordering = ['-repair_date']
+
+
+auditlog.register(DeviceRepair)
