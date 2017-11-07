@@ -2,90 +2,49 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="shortcut icon" href="/static/favicon.ico"/>
 
     <title>{{ title }}</title>
 
     <meta name="keywords" content="库存管理,Bootstrap"/>
     <meta name="description" content="使用bootstrap前端技术开发的库存管理系统"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- basic styles -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/static/scripts/assets/css/font-awesome.min.css" rel="stylesheet"/>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top" id="navbar">
-    <div class="navbar-container" id="navbar-container">
-        <div class="navbar-header pull-left">
-            <a href="/stocks/main.html" class="navbar-brand">
-                <small><i class="icon-leaf"></i> {{ appname }}</small>
-            </a>
-        </div>
-        <div class="collapse navbar-collapse  pull-left">
-            <ul class="nav navbar-nav">
-                {% block navbar %}{% endblock %}
-            </ul>
-        </div>
-        <div class="navbar-header pull-right" role="navigation">
-            <ul class="nav ace-nav">
-                <li class="green"><a data-toggle="dropdown"
-                                     class="dropdown-toggle" href="#"> <i
-                        class="icon-envelope icon-animated-vertical"></i> <span
-                        class="badge badge-success">5</span>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/main.html" class="navbar-brand">
+                    <small><i class="icon-leaf"></i> {{ appname }}</small>
                 </a>
+            </div>
 
-                    <ul
-                            class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-                        <li class="dropdown-header"><i class="icon-envelope-alt"></i>
-                            3条消息
-                        </li>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    {% block navbar %}{% endblock %}
+                </ul>
 
-                        <li><a href="#"> <img
-                                src="/static/scripts/assets/avatars/avatar.png" class="msg-photo"
-                                alt="Alex's Avatar"/> <span class="msg-body"> <span
-                                class="msg-title"> <span class="blue">Alex:</span>
-											不知道写啥 ...
-									</span> <span class="msg-time"> <i class="icon-time"></i> <span>1分钟以前</span>
-									</span>
-								</span>
-                        </a></li>
-
-                        <li><a href="inbox.html"> 查看所有消息 <i
-                                class="icon-arrow-right"></i>
-                        </a></li>
-                    </ul>
-                </li>
-
-                <li class="light-blue"><a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                    <img class="nav-user-photo" src="/static/scripts/assets/avatars/user.jpg" alt="Jason's Photo"/>
-                    <span id="userName" class="user-info"><small>欢迎光临,</small> <big>{{ name }}</big></span> <i
-                        class="icon-caret-down"></i>
-                </a>
-
-                    <ul
-                            class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-
-                        <li><a href="/admin"> <i class="icon-cog"></i> 后台管理 </a></li>
-
-
-                        <!--<li><a href="#"> <i class="icon-cog"></i> 设置 </a></li>-->
-
-                        <li><a href="/stocks/employee/{{ id }}/detail.html"> <i class="icon-user"></i> 个人资料 </a></li>
-
-                        <li><a href="#" data-toggle="modal" data-target="#changePasswordModel"> <span class="icon-lock" aria-hidden="true"></span> 修改密码
-							</a></li>
-
-                        <li class="divider"></li>
-
-                        <li id="logout"><a href="#"> <i class="icon-off"></i> 退出
-                        </a></li>
-                    </ul>
-                </li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../navbar/">Default</a></li>
+                    <li><a href="../navbar-static-top/">Static top</a></li>
+                    <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <div class="main-container" id="main-container">
     <div class="main-container-inner">
