@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from django import forms
 from django.forms import TextInput, Textarea, Select
 
-from searchableselect.widgets import SearchableSelect
 from dal import autocomplete
 
-from stocks.models import Device, OrbitProfile, DeviceRepair, DeviceType, DeviceBrand, DeviceModel, BrokenType
-from stocks import models
-from stocks.views.main import now
+from stock.models import Device, OrbitProfile, DeviceRepair, DeviceType, DeviceBrand, DeviceModel, BrokenType
+from stock import models
+
+
+def now():
+    return datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
 
 
 class SearchForm(forms.Form):

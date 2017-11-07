@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-default_app_config = 'stocks.apps.MyAppConfig'
+default_app_config = 'stock.apps.MyAppConfig'
 
 from stock.models import Employee
 

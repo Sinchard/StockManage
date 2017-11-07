@@ -20,7 +20,7 @@ from stock.views import warehouse
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # userena
-    url(r'^accounts/', include('userena.urls')),
+    #url(r'^accounts/', include('userena.urls')),
 
     # Warehouse
     url(r'^warehouse.html$', warehouse.ShowWarehouse, name='ShowWarehouse'),
