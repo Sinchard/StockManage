@@ -19,26 +19,35 @@ class Team(BaseModel):
     name = models.CharField(max_length=200)
 
 
-class Type1(BaseModel):
+class Type(BaseModel):
     name = models.CharField(max_length=200)
+    parent = models.ForeignKey('self',
+                               related_name="child",
+                               on_delete=models.SET_NULL,
+                               null=True)
+
+    def __str__(self):
+        return self.name
 
 
-class Type2(BaseModel):
-    type1 = models.ForeignKey(Type1)
-    name = models.CharField(max_length=200)
-
-
-class Type3(BaseModel):
-    type2 = models.ForeignKey(Type2)
-    name = models.CharField(max_length=200)
-
-
-class item(BaseModel):
-    type1 = models.ForeignKey(Type1)
-    type2 = models.ForeignKey(Type2)
-    type3 = models.ForeignKey(Type3)
+class Item(BaseModel):
+    type1 = models.ForeignKey(Type,
+                              related_name="type1",
+                              on_delete=models.SET_NULL,
+                              null=True)
+    type2 = models.ForeignKey(Type,
+                              related_name="type2",
+                              on_delete=models.SET_NULL,
+                              null=True)
+    type3 = models.ForeignKey(Type,
+                              related_name="type3",
+                              on_delete=models.SET_NULL,
+                              null=True)
     name = models.CharField(max_length=200)
     brand = models.CharField(max_length=200)
     mark = models.CharField(max_length=200)
     sn = models.CharField(max_length=200)
     amount = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name + " " + self.brand + " " + self.mark + " " + self.sn
